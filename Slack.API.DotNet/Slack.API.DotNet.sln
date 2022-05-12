@@ -5,7 +5,12 @@ VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slack.API.Net48", "Slack.API.Net48\Slack.API.Net48.csproj", "{D9C40CE3-642A-4A1E-BCEF-E9F21EA5AD1D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Slack.API.Net48.Tests", "Slack.API.Net48.Tests\Slack.API.Net48.Tests.csproj", "{8D9AD528-C654-49F4-922D-81D7DF7CB4AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Slack.API.Net48.Tests", "Slack.API.Net48.Tests\Slack.API.Net48.Tests.csproj", "{8D9AD528-C654-49F4-922D-81D7DF7CB4AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5625E6E4-7EC3-4A41-95D0-D6E538EC1D5C}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
