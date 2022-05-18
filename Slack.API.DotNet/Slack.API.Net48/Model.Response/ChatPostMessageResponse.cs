@@ -7,10 +7,10 @@ namespace Slack.API.Net48.Model.Response
         [JsonProperty("ok", Required = Required.Always)]
         public bool Ok { get; set; }
 
-        [JsonProperty("channel", Required = Required.Always)]
+        [JsonProperty("channel")]
         public string Channel { get; set; }
 
-        [JsonProperty("ts", Required = Required.Always)]
+        [JsonProperty("ts")]
         public string Ts { get; set; }
     }
 }

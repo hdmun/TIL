@@ -14,13 +14,17 @@ namespace Slack.API.Net48.Model.Request
         [JsonProperty("thread_ts")]
         public string ThreadTimeStamp { get; set; }
 
-        public static ChatPostMessage Create(string channel, Attachment[] attachments, string threadTimeStamp)
+        [JsonProperty("link_names")]
+        public bool LinkNames { get; set; }
+
+        public static ChatPostMessage Create(string channel, Attachment[] attachments, string threadTimeStamp, bool linkNames = false)
         {
             return new ChatPostMessage
             {
                 Channel = channel,
                 Attachments = attachments,
-                ThreadTimeStamp = threadTimeStamp
+                ThreadTimeStamp = threadTimeStamp,
+                LinkNames = linkNames
             };
         }
     }
