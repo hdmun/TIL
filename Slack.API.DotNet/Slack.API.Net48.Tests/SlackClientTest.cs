@@ -60,34 +60,6 @@ namespace Slack.API.Net48.Tests
             Assert.True(replyresponse.Ok);
         }
 
-        [Fact]
-        public async Task UpdateChatMessage()
-        {
-            Assert.True(token.Length > 0);
-            Assert.True(channelId.Length > 0);
-
-            var attachments = new Attachment[] {
-                Attachment.Create("good", "test update message", null)
-            };
-            var message = ChatPostMessage.Create(channelId, attachments, null);
-            var slackClient = new SlackClient(token);
-            var response = await slackClient.PostMessage(message);
-            var targetTs = response.Ts;
-
-            Assert.True(response.Ok);
-            Assert.NotNull(targetTs);
-            Assert.NotEqual("", targetTs);
-
-            var updateAttachments = new Attachment[] {
-                Attachment.Create("good", "test update message (modify)", null)
-            };
-            var updateMessage = ChatUpdate.Create(channelId, updateAttachments, targetTs);
-            var updateResponse = await slackClient.UpdateMessage(updateMessage);
-
-            Assert.True(updateResponse.Ok);
-            Assert.Equal(targetTs, updateResponse.Ts);
-        }
-
         [Theory]
         [InlineData("")]
         public void MemberMentionTest(string memberId)
@@ -111,6 +83,34 @@ namespace Slack.API.Net48.Tests
                                     .GetAwaiter()
                                     .GetResult();
             Assert.True(response.Ok);
+        }
+
+        [Fact]
+        public async Task UpdateChatMessage()
+        {
+            Assert.True(token.Length > 0);
+            Assert.True(channelId.Length > 0);
+
+            var attachments = new Attachment[] {
+                Attachment.Create("good", "test update message", null, null)
+            };
+            var message = ChatPostMessage.Create(channelId, attachments, null);
+            var slackClient = new SlackClient(token);
+            var response = await slackClient.PostMessage(message);
+            var targetTs = response.Ts;
+
+            Assert.True(response.Ok);
+            Assert.NotNull(targetTs);
+            Assert.NotEqual("", targetTs);
+
+            var updateAttachments = new Attachment[] {
+                Attachment.Create("good", "test update message (modify)", null, null)
+            };
+            var updateMessage = ChatUpdate.Create(channelId, updateAttachments, targetTs);
+            var updateResponse = await slackClient.UpdateMessage(updateMessage);
+
+            Assert.True(updateResponse.Ok);
+            Assert.Equal(targetTs, updateResponse.Ts);
         }
     }
 }
