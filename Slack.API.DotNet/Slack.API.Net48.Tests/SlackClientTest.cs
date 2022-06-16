@@ -1,12 +1,13 @@
 using Slack.API.Net48.Model.Request;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace Slack.API.Net48.Tests
 {
     public class SlackClientTest
     {
-        private readonly string token = "";
-        private readonly string channelId = "";
+        private readonly string token = "xoxb-yourToken";
+        private readonly string channelId = "testChannelId";
 
         [Fact]
         public void PostMessageTest()
@@ -15,7 +16,7 @@ namespace Slack.API.Net48.Tests
             Assert.True(channelId.Length > 0);
 
             var attachments = new Attachment[] {
-                Attachment.Create("good", "message (test)", null
+                Attachment.Create("good", "test post message", null
                     , new AttachmentField[] {
                         AttachmentField.Create("title1", "value1", true),
                         AttachmentField.Create("title2", "value2", true),
@@ -38,7 +39,7 @@ namespace Slack.API.Net48.Tests
             Assert.True(channelId.Length > 0);
 
             var attachments = new Attachment[] {
-                Attachment.Create("good", "message (test)", null, null)
+                Attachment.Create("danger", "test post message for reply", null, null)
             };
             var message = ChatPostMessage.Create(channelId, attachments, null);
             var slackClient = new SlackClient(token);
@@ -57,6 +58,34 @@ namespace Slack.API.Net48.Tests
                                     .GetResult();
 
             Assert.True(replyresponse.Ok);
+        }
+
+        [Fact]
+        public async Task UpdateChatMessage()
+        {
+            Assert.True(token.Length > 0);
+            Assert.True(channelId.Length > 0);
+
+            var attachments = new Attachment[] {
+                Attachment.Create("good", "test update message", null)
+            };
+            var message = ChatPostMessage.Create(channelId, attachments, null);
+            var slackClient = new SlackClient(token);
+            var response = await slackClient.PostMessage(message);
+            var targetTs = response.Ts;
+
+            Assert.True(response.Ok);
+            Assert.NotNull(targetTs);
+            Assert.NotEqual("", targetTs);
+
+            var updateAttachments = new Attachment[] {
+                Attachment.Create("good", "test update message (modify)", null)
+            };
+            var updateMessage = ChatUpdate.Create(channelId, updateAttachments, targetTs);
+            var updateResponse = await slackClient.UpdateMessage(updateMessage);
+
+            Assert.True(updateResponse.Ok);
+            Assert.Equal(targetTs, updateResponse.Ts);
         }
 
         [Theory]

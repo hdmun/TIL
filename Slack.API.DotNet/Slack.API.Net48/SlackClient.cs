@@ -41,5 +41,26 @@ namespace Slack.API.Net48
                 return JsonConvert.DeserializeObject<ChatPostMessageResponse>(responseBody);
             }
         }
+
+        public async Task<ChatUpdateResponse> UpdateMessage(ChatUpdate message)
+        {
+            var content = JsonConvert.SerializeObject(message);
+
+            using (var httpClient = new HttpClient())
+            {
+                httpClient.BaseAddress = new Uri(baseAddress);
+
+                var request = new HttpRequestMessage(HttpMethod.Post, "/api/chat.update")
+                {
+                    Content = new StringContent(content, Encoding.UTF8, "application/json"),
+                };
+                request.Headers.Authorization
+                    = new AuthenticationHeaderValue("Bearer", token);
+
+                var response = await httpClient.SendAsync(request);
+                var responseBody = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<ChatUpdateResponse>(responseBody);
+            }
+        }
     }
 }

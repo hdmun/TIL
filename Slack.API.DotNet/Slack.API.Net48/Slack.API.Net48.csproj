@@ -49,6 +49,7 @@
     <Compile Include="Model.Request\ChatPostMessage.cs" />
     <Compile Include="Model.Request\ChatUpdate.cs" />
     <Compile Include="Model.Response\ChatPostMessageResponse.cs" />
+    <Compile Include="Model.Response\ChatUpdateResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SlackClient.cs" />
   </ItemGroup>
