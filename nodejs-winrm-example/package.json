@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "nodejs-winrm": "^1.1.3"
+  }
+}
