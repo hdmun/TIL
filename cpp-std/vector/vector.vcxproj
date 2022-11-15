@@ -129,9 +129,10 @@
   <ItemGroup>
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="vector_copy.cpp" />
+    <ClCompile Include="vector_reserve.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vector_copy.h" />
+    <ClInclude Include="vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

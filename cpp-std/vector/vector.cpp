@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <vector>
 
-#include "vector_copy.h"
+#include "vector.h"
 
 // https://flower0.tistory.com/482
 
@@ -9,5 +9,6 @@
 int main()
 {
     vector_copy_test();
+    vector_reserve_test();
     return 0;
 }

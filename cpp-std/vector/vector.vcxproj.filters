@@ -21,9 +21,12 @@
     <ClCompile Include="vector_copy.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="vector_reserve.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="vector_copy.h">
+    <ClInclude Include="vector.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
