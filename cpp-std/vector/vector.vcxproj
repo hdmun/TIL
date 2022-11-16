@@ -129,6 +129,9 @@
   <ItemGroup>
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="vector_copy.cpp" />
+    <ClCompile Include="vector_move.cpp">
+      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
+    </ClCompile>
     <ClCompile Include="vector_reserve.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -10,5 +10,6 @@ int main()
 {
     vector_copy_test();
     vector_reserve_test();
+    vector_move_test();
     return 0;
 }
