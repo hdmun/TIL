@@ -3,14 +3,12 @@
 #include <Windows.h>
 #include <iostream>
 
-#include "move_semantics.h"
-#include "cpp11_thread.h"
+#include "cpp11.h"
 
 int main()
 {
     std::cout << "call cpp11 functions!\n";
 
-    cpp11::move_semantics();
-
     cpp11::thread_main();
+    cpp11::move_semantics();
 }
