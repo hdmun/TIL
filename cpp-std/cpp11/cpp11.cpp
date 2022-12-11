@@ -12,4 +12,5 @@ int main()
     cpp11::thread_main();
     cpp11::move_semantics();
     cpp11::move_instance();
+    cpp11::weak_ptr_();
 }

@@ -27,6 +27,9 @@
     <ClCompile Include="move_instance.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="weak_ptr.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpp11.h">
