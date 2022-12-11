@@ -74,6 +74,7 @@
   <ItemGroup>
     <ClCompile Include="cpp11.cpp" />
     <ClCompile Include="cpp11_thread.cpp" />
+    <ClCompile Include="move_instance.cpp" />
     <ClCompile Include="move_semantics.cpp" />
   </ItemGroup>
   <ItemGroup>

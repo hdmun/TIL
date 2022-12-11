@@ -24,6 +24,9 @@
     <ClCompile Include="cpp11_thread.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="move_instance.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpp11.h">
