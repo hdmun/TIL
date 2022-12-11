@@ -76,6 +76,7 @@
     <ClCompile Include="cpp11_thread.cpp" />
     <ClCompile Include="move_instance.cpp" />
     <ClCompile Include="move_semantics.cpp" />
+    <ClCompile Include="virtual_function.cpp" />
     <ClCompile Include="weak_ptr.cpp" />
     <ClCompile Include="type_cast.cpp" />
   </ItemGroup>

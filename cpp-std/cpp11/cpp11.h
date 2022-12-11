@@ -7,6 +7,7 @@ namespace cpp11 {
     void move_instance();
     void weak_ptr_();
     void type_cast();
+    void virtual_function();
 }
 
 #endif
