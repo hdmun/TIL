@@ -13,4 +13,5 @@ int main()
     cpp11::move_semantics();
     cpp11::move_instance();
     cpp11::weak_ptr_();
+    cpp11::type_cast();
 }

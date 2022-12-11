@@ -6,6 +6,7 @@ namespace cpp11 {
     void move_semantics();
     void move_instance();
     void weak_ptr_();
+    void type_cast();
 }
 
 #endif

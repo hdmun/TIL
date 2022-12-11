@@ -77,6 +77,7 @@
     <ClCompile Include="move_instance.cpp" />
     <ClCompile Include="move_semantics.cpp" />
     <ClCompile Include="weak_ptr.cpp" />
+    <ClCompile Include="type_cast.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpp11.h" />
