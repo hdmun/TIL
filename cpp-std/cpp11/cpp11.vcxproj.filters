@@ -36,6 +36,9 @@
     <ClCompile Include="virtual_function.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
+    <ClCompile Include="exception_catch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cpp11.h">

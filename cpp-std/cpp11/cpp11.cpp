@@ -15,4 +15,5 @@ int main()
     cpp11::weak_ptr_();
     cpp11::type_cast();
     cpp11::virtual_function();
+    cpp11::exception_catch();
 }

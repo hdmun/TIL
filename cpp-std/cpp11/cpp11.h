@@ -8,6 +8,7 @@ namespace cpp11 {
     void weak_ptr_();
     void type_cast();
     void virtual_function();
+    void exception_catch();
 }
 
 #endif
