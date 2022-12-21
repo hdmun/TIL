@@ -4,7 +4,6 @@ import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
-import session from './loaders/session'
 import authRouter from './routes/auth'
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
@@ -20,8 +19,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(session);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
