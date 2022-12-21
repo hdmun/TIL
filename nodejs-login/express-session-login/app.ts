@@ -1,9 +1,11 @@
 import createError from 'http-errors';
 import express, { Request, Response, NextFunction } from 'express';
+import expressSession from "express-session";
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
+import authRouter from './routes/auth'
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
 
@@ -11,7 +13,7 @@ const app: express.Express = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
+app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -19,8 +21,18 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(expressSession({
+  secret: 'session-secret',
+  resave: false,  // recommand
+  saveUninitialized: false,  // recommand
+  cookie: {
+    maxAge: 60 * 1000,  // 예제용 코드이므로 대충 1분으로 잡자
+  }
+}))
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req_: Request, res_: Response, next: NextFunction) {
@@ -38,4 +50,4 @@ app.use(function(err, req: Request, res: Response, next: NextFunction) {
   res.render('error');
 });
 
-module.exports = app;
+export default app;
