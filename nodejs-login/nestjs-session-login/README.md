@@ -1,4 +1,4 @@
-# nodejs-login-session
+# nestjs-session-login
 
 - nodejs v16.16.0
 - npm 8.11.0
@@ -11,7 +11,7 @@
 
 ```
 npm i -g @nestjs/cli
-nest new nodejs-login-session
+nest new nestjs-session-login
 ```
 
 
