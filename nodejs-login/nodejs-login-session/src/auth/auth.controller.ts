@@ -25,9 +25,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
   
   @Post('login')
-  login(@Body() dto: LoginRequest, @Session() session: SessionData): LoginResponse {
+  login(@Res() res: Response, @Body() dto: LoginRequest, @Session() session: SessionData): void {
     try {
-      this.logger.log('request /auth/login', dto.id, dto.password)
+      this.logger.log(`request /auth/login', id: ${dto.id}, password: ${dto.password}`)
 
       if (!this.authService.login(dto.id, dto.password)) {
         throw new UnauthorizedException('failed to login');
@@ -37,14 +37,14 @@ export class AuthController {
     } catch (error) {
 
       this.logger.error('failed to login', error)
-      throw error;
+      res.redirect('/login.html')
+      // throw error;
     }
 
-    this.logger.log('success to login', dto.id, dto.password)
+    this.logger.log(`success to login id: ${dto.id}, password: ${dto.password}`)
 
-    return {
-      message: 'login success'
-    }
+    res.redirect('/index.html')
+    // return { message: 'login success' }
   }
 
   @Delete('logout')

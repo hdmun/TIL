@@ -16,3 +16,5 @@ nest new nodejs-login-session
 ## Additional Dependency
 
 - `express-session`
+- `nestjs-session`
+- `@nestjs/serve-static`
