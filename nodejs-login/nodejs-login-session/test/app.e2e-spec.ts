@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { INestApplication } from '@nestjs/common';
-import * as request from 'supertest';
+import request from 'supertest';
 import { AppModule } from './../src/app.module';
 
 describe('AppController (e2e)', () => {
@@ -20,5 +20,27 @@ describe('AppController (e2e)', () => {
       .get('/')
       .expect(200)
       .expect('Hello World!');
+  });
+
+  describe('/auth/login', () => {
+    it('POST failed', () => {
+      return request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          id: 'failedId',
+          password: ''
+        })
+        .expect(401)
+    });
+
+    it('POST Success', () => {
+      return request(app.getHttpServer())
+        .post('/auth/login')
+        .send({
+          id: 'testId',
+          password: 'testPassword'
+        })
+        .expect(201)
+    });
   });
 });

@@ -11,3 +11,8 @@
 npm i -g @nestjs/cli
 nest new nodejs-login-session
 ```
+
+
+## Additional Dependency
+
+- `express-session`
