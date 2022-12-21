@@ -1,10 +1,10 @@
 import createError from 'http-errors';
 import express, { Request, Response, NextFunction } from 'express';
-import expressSession from "express-session";
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 
+import session from './loaders/session'
 import authRouter from './routes/auth'
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
@@ -21,14 +21,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(expressSession({
-  secret: 'session-secret',
-  resave: false,  // recommand
-  saveUninitialized: false,  // recommand
-  cookie: {
-    maxAge: 60 * 1000,  // 예제용 코드이므로 대충 1분으로 잡자
-  }
-}))
+app.use(session);
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
