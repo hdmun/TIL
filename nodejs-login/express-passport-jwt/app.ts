@@ -6,9 +6,7 @@ import logger from 'morgan';
 import passport from 'passport'
 
 import './loaders/passport'
-import authRouter from './routes/auth'
-import indexRouter from './routes/index';
-import usersRouter from './routes/users';
+import routers from './routes';
 
 const app: express.Express = express();
 
@@ -24,9 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(passport.initialize())
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/auth', authRouter);
+app.use('/', routers);
 
 // catch 404 and forward to error handler
 app.use(function(req_: Request, res_: Response, next: NextFunction) {
