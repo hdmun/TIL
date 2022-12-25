@@ -7,7 +7,7 @@ import { jwtOptions } from '../loaders/passport';
 declare global {
   namespace Express {
     interface User {
-      id: string;
+      id: number;
     }
   }
 }
@@ -22,7 +22,7 @@ function login(req: Request, res: Response) {
   }
 
   // 토큰 생성
-  const payload: JwtPayload = { sub: req.user.id };
+  const payload: JwtPayload = { id: req.user.id };
   const token = jwt.sign(payload, jwtOptions.secretOrKey, {
     expiresIn: '1m'
   });

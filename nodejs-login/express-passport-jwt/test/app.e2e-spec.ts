@@ -15,7 +15,7 @@ describe('Express App (e2e)', () => {
       return request(app)
         .post('/auth/login')
         .send({
-          id : 'fail Test',
+          email : 'fail Test',
           password : 'fail Test'
         })
         .expect(401)
@@ -25,7 +25,7 @@ describe('Express App (e2e)', () => {
       return request(app)
         .post('/auth/login')
         .send({
-          id: 'testid',
+          email: 'test@email.com',
           password: 'testpassword'
         })
         .expect(201)
@@ -39,11 +39,12 @@ describe('Express App (e2e)', () => {
       request(app)
         .post('/auth/login')
         .send({
-          id: 'testid',
+          email: 'test@email.com',
           password: 'testpassword'
         })
         .end(function(err, res) {
           token = res.body.token;
+          console.log(token)
           done();
         });
     });

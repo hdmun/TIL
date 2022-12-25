@@ -28,7 +28,12 @@ export function verifyPassport(
 
 export function verifyJwtToken(payload: JwtPayload, done: VerifiedCallback): void {
   try {
-    const user = UserRepository.findOneBy(payload.sub);
+    // todo: verify payload expired date
+    // const expiredDate = new Date(payload.exp * 1000);
+    // new Date() > payload.exp * 1000
+
+    // db 접근 흠...
+    const user = UserRepository.findOneById(payload.id as number);
     if (user === null) {
       done(null, false, { message: 'Unauthorized token' });
       return;
@@ -42,14 +47,14 @@ export function verifyJwtToken(payload: JwtPayload, done: VerifiedCallback): voi
 }
 
 
-export function login(id: string, password: string): User | null {
-  const user = UserRepository.findOneBy(id);
+export function login(email: string, password: string): User | null {
+  const user = UserRepository.findOneBy(email);
   if (!user) {
     return null
   }
 
   // 임시
-  if (password !== 'testpassword') {
+  if (user.password !== password) {
     return null;
   }
 
