@@ -1,17 +1,55 @@
 import { Express } from 'express';
-import request, { Response } from 'supertest';
+import request from 'supertest';
 import expressApp from '../app'
+import { User } from '../entities/user.entity';
+import mySqlDataSource from '../loaders/mysql';
 
 describe('Express App (e2e)', () => {
   let app: Express;
 
   beforeAll(async () => {
     app = expressApp;
-    app.set('port', 3000)
+
+    await mySqlDataSource.initialize();
   });
 
-  describe('/auth/login', () => {
-    it('Failed [POST]', () => {
+  afterAll(async () => {
+    await mySqlDataSource.getRepository(User).clear();
+    await mySqlDataSource.destroy();
+  })
+
+  describe('/auth', () => {
+    it('[POST] /register success', async () => {
+      const res = await request(app)
+        .post('/auth/register')
+        .send({
+          email: 'test@email.com',
+          password: 'testpassword',
+          firstName: 'testFirstName',
+          lastName: 'testLastName',
+        })
+        .expect(201)
+        .expect('Content-Type', /json/)
+
+        expect(res.body.token).not.toBeUndefined()
+        expect(res.body.token).not.toBeNull()
+    });
+
+    it('[POST] /login success', async () => {
+      const res = await request(app)
+        .post('/auth/login')
+        .send({
+          email: 'test@email.com',
+          password: 'testpassword'
+        })
+        .expect(201)
+        .expect('Content-Type', /json/)
+
+        expect(res.body.token).not.toBeUndefined()
+        expect(res.body.token).not.toBeNull()
+    });
+
+    it('[POST] /login failed', () => {
       return request(app)
         .post('/auth/login')
         .send({
@@ -20,42 +58,33 @@ describe('Express App (e2e)', () => {
         })
         .expect(401)
     });
+  });
 
-    it('Success [POST]', () => {
-      return request(app)
+  describe('/users', () => {
+    let token: string = null;
+
+    beforeAll(async () => {
+      const res = await request(app)
         .post('/auth/login')
         .send({
           email: 'test@email.com',
           password: 'testpassword'
         })
         .expect(201)
-    });
-  });
+        .expect('Content-Type', /json/)
 
-  describe('/users', () => {
-    let token: string = null;
-
-    beforeAll((done) => {
-      request(app)
-        .post('/auth/login')
-        .send({
-          email: 'test@email.com',
-          password: 'testpassword'
-        })
-        .end(function(err, res) {
-          token = res.body.token;
-          console.log(token)
-          done();
-        });
+        expect(res.body.token).not.toBeUndefined();
+        expect(res.body.token).not.toBeNull();
+        token = res.body.token;
     });
 
-    it('Failed [GET]', () => {
+    it('[GET] /users failed', () => {
       return request(app)
         .get('/users')
         .expect(401)
     });
 
-    it('Success [GET]', () => {
+    it('[GET] /users success', () => {
       return request(app)
         .get('/users')
         .set('Authorization', 'Bearer ' + token)

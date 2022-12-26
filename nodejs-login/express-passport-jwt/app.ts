@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import passport from 'passport'
 
+import './loaders/mysql'
 import './loaders/passport'
 import routers from './routes';
 

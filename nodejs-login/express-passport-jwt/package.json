@@ -6,6 +6,7 @@
     "build": "tsc --project tsconfig.build.json",
     "dev": "ts-node ./bin/www",
     "start": "node ./dist/bin/www",
+    "test": "jest --config ./jest.config.json",
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
@@ -17,10 +18,13 @@
     "ioredis": "^5.2.4",
     "jsonwebtoken": "^8.5.1",
     "morgan": "~1.9.1",
+    "mysql": "^2.18.1",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "supertest": "^6.3.3"
+    "reflect-metadata": "^0.1.13",
+    "supertest": "^6.3.3",
+    "typeorm": "^0.3.11"
   },
   "devDependencies": {
     "@types/express": "^4.17.15",
