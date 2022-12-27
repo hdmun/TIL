@@ -13,17 +13,30 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../components/Copyright';
+import { useAppDispatch } from '../hooks';
+import { SignupRequest } from '../service/authAPI';
+import { fetchAuthSignup } from '../slice/auth';
 
 const theme = createTheme();
 
 export default function SignUp() {
+  const dispatch = useAppDispatch();
+
+  const [signupInput, setSignupInput] = React.useState<SignupRequest>({
+    email: '',
+    password: '',
+    firstName: '',
+    lastName: ''
+   });
+  const handleChangeInput = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSignupInput({ ...signupInput, [name]: event.target.value });
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    console.log(signupInput);
+
+    dispatch(fetchAuthSignup(signupInput));
   };
 
   return (
@@ -54,6 +67,7 @@ export default function SignUp() {
                   fullWidth
                   id="firstName"
                   label="First Name"
+                  onChange={handleChangeInput('firstName')}
                   autoFocus
                 />
               </Grid>
@@ -64,6 +78,7 @@ export default function SignUp() {
                   id="lastName"
                   label="Last Name"
                   name="lastName"
+                  onChange={handleChangeInput('lastName')}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -74,6 +89,7 @@ export default function SignUp() {
                   id="email"
                   label="Email Address"
                   name="email"
+                  onChange={handleChangeInput('email')}
                   autoComplete="email"
                 />
               </Grid>
@@ -85,6 +101,7 @@ export default function SignUp() {
                   label="Password"
                   type="password"
                   id="password"
+                  onChange={handleChangeInput('password')}
                   autoComplete="new-password"
                 />
               </Grid>

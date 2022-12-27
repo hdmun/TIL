@@ -13,17 +13,25 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Copyright from '../components/Copyright';
+import { SigninRequest } from '../service/authAPI';
+import { fetchAuthSignin } from '../slice/auth';
+import { useAppDispatch } from '../hooks';
 
 const theme = createTheme();
 
 export default function SignIn() {
+  const dispatch = useAppDispatch();
+
+  const [signinInput, setSigninInput] = React.useState<SigninRequest>({ email: '', password: '' });
+  const handleChangeInput = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSigninInput({ ...signinInput, [name]: event.target.value });
+  };
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
+    console.log(signinInput);
+
+    dispatch(fetchAuthSignin(signinInput));
   };
 
   return (
@@ -51,7 +59,8 @@ export default function SignIn() {
               fullWidth
               id="email"
               label="Email Address"
-              name="email"
+              value={signinInput.email}
+              onChange={handleChangeInput('email')}
               autoComplete="email"
               autoFocus
             />
@@ -59,7 +68,8 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              name="password"
+              value={signinInput.password}
+              onChange={handleChangeInput('password')}
               label="Password"
               type="password"
               id="password"
