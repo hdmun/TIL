@@ -16,10 +16,12 @@ import Copyright from '../components/Copyright';
 import { useAppDispatch } from '../hooks';
 import { SignupRequest } from '../service/authAPI';
 import { fetchAuthSignup } from '../slice/auth';
+import { useNavigate } from 'react-router-dom';
 
 const theme = createTheme();
 
 export default function SignUp() {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
   const [signupInput, setSignupInput] = React.useState<SignupRequest>({
@@ -36,7 +38,10 @@ export default function SignUp() {
     event.preventDefault();
     console.log(signupInput);
 
-    dispatch(fetchAuthSignup(signupInput));
+    dispatch(fetchAuthSignup(signupInput))
+      .then(() => {
+        navigate('/');
+      })
   };
 
   return (
@@ -122,7 +127,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
