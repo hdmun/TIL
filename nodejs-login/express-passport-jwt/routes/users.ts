@@ -1,5 +1,5 @@
 import express, { Request, Response, NextFunction } from 'express';
-import passport from 'passport';
+import * as authMiddleware from '../middleware/auth'
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ function usersAll(req: Request, res: Response, next: NextFunction) {
 }
 
 router.get('/',
-  passport.authenticate('jwt', { session: false }),
+  authMiddleware.authenticateAccess,
   usersAll
 );
 

@@ -62,6 +62,7 @@ describe('Express App (e2e)', () => {
 
   describe('/users', () => {
     let token: string = null;
+    let cookie: string[] = [];
 
     beforeAll(async () => {
       const res = await request(app)
@@ -76,6 +77,7 @@ describe('Express App (e2e)', () => {
         expect(res.body.token).not.toBeUndefined();
         expect(res.body.token).not.toBeNull();
         token = res.body.token;
+        cookie = res.get('Set-Cookie');
     });
 
     it('[GET] /users failed', () => {
@@ -90,6 +92,21 @@ describe('Express App (e2e)', () => {
         .set('Authorization', 'Bearer ' + token)
         .expect(200)
         .expect('respond with a resource');
+    });
+
+    it('[GET] /users failed to silent', async () => {
+      await request(app)
+        .get('/users')
+        .expect(401)
+
+      const silentRes = await request(app)
+      .post('/auth/silent')
+      .set('Cookie', cookie)
+      .send()
+      .expect(201)
+
+      expect(silentRes.body.token).not.toBeUndefined();
+      expect(silentRes.body.token).not.toBeNull();
     });
   });
 });
