@@ -61,18 +61,15 @@ export function authenticateAccess(req: Request, res: Response, next: NextFuncti
     return;
   }
 
-  const [result, _] = verifyJwtToken(accessToken);
+  const [result, _payload] = verifyJwtToken(accessToken);
   switch (result) {
     case JwtVerifyResult.Success:
       next();
       break;
-    case JwtVerifyResult.Expired:
-      break;
     default:
+      res.status(401).json({ message: 'Invalid token' })
       break;
   }
-
-  res.status(401).json({ message: 'Invalid token' })
 }
 
 export function authenticateRefresh(req: Request, res: Response, next: NextFunction): void {
@@ -84,9 +81,7 @@ export function authenticateRefresh(req: Request, res: Response, next: NextFunct
   }
 
   // AccessToken 재발급
-  res.locals.accessToken = {
-    accessToken: generateAccessToken(payload.id)
-  }
+  res.locals.accessToken = generateAccessToken(payload.id)
 
   // RefreshToken 갱신
   const refreshToken = generateRefreshToken(payload.id)
@@ -102,6 +97,7 @@ export function generateToken(req: Request, res: Response): void {
   if (!req.user) {
     res.status(500)
       .json({ message: 'invalid user' })
+    return;
   }
 
   // 토큰 생성

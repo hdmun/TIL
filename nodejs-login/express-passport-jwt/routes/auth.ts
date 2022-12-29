@@ -67,7 +67,7 @@ router.post('/login',
   login,
   authMiddleware.generateToken,
 );
-router.post('/silent',
+router.get('/silent',
   authMiddleware.authenticateRefresh,
   silentRefresh);
 
