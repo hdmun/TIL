@@ -2,6 +2,7 @@ import createError from 'http-errors';
 import express, { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
+import cors from 'cors'
 import logger from 'morgan';
 import passport from 'passport'
 
@@ -16,6 +17,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true,
+}));
 
 app.use(passport.initialize())
 
