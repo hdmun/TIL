@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,17 +14,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import Copyright from '../components/Copyright';
-import { useAppDispatch } from '../hooks';
-import { SignupRequest } from '../service/authAPI';
-import { fetchAuthSignup } from '../slice/auth';
-import { useNavigate } from 'react-router-dom';
+import { SignupRequest, useSignupMutation } from '../service/authAPI';
 
 const theme = createTheme();
 
 export default function SignUp() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const [signup] = useSignupMutation();
 
   const [signupInput, setSignupInput] = React.useState<SignupRequest>({
     email: '',
@@ -38,7 +38,7 @@ export default function SignUp() {
     event.preventDefault();
     console.log(signupInput);
 
-    dispatch(fetchAuthSignup(signupInput))
+    signup(signupInput)
       .then(() => {
         navigate('/');
       })
@@ -127,7 +127,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="/signin" variant="body2">
+                <Link component={RouterLink} to="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>

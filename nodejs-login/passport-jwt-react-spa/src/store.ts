@@ -2,12 +2,18 @@
 // https://github.com/reduxjs/redux/blob/master/examples/counter-ts/src/app/store.ts
 
 import { configureStore } from "@reduxjs/toolkit"
-import AuthReducer from "./slice/auth"
+import { authApi } from "./service/authAPI";
+import authReducer from "./slice/auth"
 
 export const store = configureStore({
   reducer: {
-    auth: AuthReducer,
+    [authApi.reducerPath]: authApi.reducer,
+    auth: authReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat([
+      authApi.middleware,
+    ]),
 })
 
 export type AppDispatch = typeof store.dispatch;

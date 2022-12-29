@@ -1,4 +1,6 @@
-import axios from "axios";
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { setToken } from '../slice/auth';
+import baseQueryWithReauth from './fetchBaseReauth';
 
 export interface SignupRequest {
   email: string;
@@ -20,12 +22,55 @@ export interface SigninResponse {
   token: string;
 }
 
-export async function fetchSignup(dto: SignupRequest): Promise<SignupResponse> {
-  const response = await axios.post<SignupResponse>('/auth/register', dto);
-  return response.data;
-}
+// https://velog.io/@defaultkyle/rtk-query-1#rtk-query-essentials
+// https://redux-toolkit.js.org/rtk-query/usage/examples
 
-export async function fetchSignin(dto: SigninRequest): Promise<SigninResponse> {
-  const response = await axios.post<SigninResponse>('/auth/login', dto);
-  return response.data
-}
+export const authApi = createApi({
+  reducerPath: 'authApi',
+  baseQuery: baseQueryWithReauth,
+  endpoints: (builder) => ({
+    signup: builder.mutation<SignupResponse, SignupRequest>({
+      query: (body: SignupRequest) => ({
+        url: 'auth/register',
+        method: 'POST',
+        body
+      }),
+      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(setToken(data.token));
+        } catch (error) {
+          console.log(error);
+          // todo: handling
+        }
+      },
+    }),
+    signin: builder.mutation<SigninResponse, SigninRequest>({
+      query: (body: SigninRequest) => ({
+        url: 'auth/login',
+        method: 'POST',
+        body
+      }),
+      async onQueryStarted(_args, { dispatch, queryFulfilled }) {
+        try {
+          const { data } = await queryFulfilled;
+          await dispatch(setToken(data.token));
+        } catch (error) {
+          console.log(error);
+          // todo: handling
+        }
+      },
+    }),
+    silent: builder.mutation<SigninResponse, null>({
+      query: (_body) => ({
+        url: 'auth/silent',
+        method: 'POST',
+      })
+    })
+  })
+})
+
+export const {
+  useSignupMutation,
+  useSigninMutation,
+} = authApi

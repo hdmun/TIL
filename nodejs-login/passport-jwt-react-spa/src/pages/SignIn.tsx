@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
+
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,31 +14,32 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
 import Copyright from '../components/Copyright';
-import { SigninRequest } from '../service/authAPI';
-import { fetchAuthSignin } from '../slice/auth';
-import { useAppDispatch } from '../hooks';
-import { useNavigate } from 'react-router-dom';
+import { SigninRequest, useSigninMutation } from '../service/authAPI';
 
 const theme = createTheme();
 
 export default function SignIn() {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  const [signin] = useSigninMutation();
 
   const [signinInput, setSigninInput] = React.useState<SigninRequest>({ email: '', password: '' });
   const handleChangeInput = (name: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setSigninInput({ ...signinInput, [name]: event.target.value });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log(signinInput);
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    try {
+      console.log('handleSubmit', signinInput);
 
-    dispatch(fetchAuthSignin(signinInput))
-      .then(() => {
-        navigate('/');
-      })
+      event.preventDefault();
+      await signin(signinInput).unwrap()
+      navigate('/')
+    } catch (error) {
+      console.log(error);
+      // show alert
+    }
   };
 
   return (
@@ -94,12 +97,12 @@ export default function SignIn() {
             </Button>
             <Grid container>
               <Grid item xs>
-                <Link href="#" variant="body2">
+                <Link component={RouterLink} to="/" variant="body2">
                   Forgot password?
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="/signup" variant="body2">
+                <Link component={RouterLink} to="/signup" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
