@@ -1,65 +1,112 @@
 import { Express } from 'express';
-import request, { Response } from 'supertest';
+import request from 'supertest';
 import expressApp from '../app'
+import { User } from '../entities/user.entity';
+import mySqlDataSource from '../loaders/mysql';
 
 describe('Express App (e2e)', () => {
   let app: Express;
 
   beforeAll(async () => {
     app = expressApp;
-    app.set('port', 3000)
+
+    await mySqlDataSource.initialize();
   });
 
-  describe('/auth/login', () => {
-    it('Failed [POST]', () => {
-      return request(app)
-        .post('/auth/login')
+  afterAll(async () => {
+    await mySqlDataSource.getRepository(User).clear();
+    await mySqlDataSource.destroy();
+  })
+
+  describe('/auth', () => {
+    it('[POST] /register success', async () => {
+      const res = await request(app)
+        .post('/auth/register')
         .send({
-          id : 'fail Test',
-          password : 'fail Test'
+          email: 'test@email.com',
+          password: 'testpassword',
+          firstName: 'testFirstName',
+          lastName: 'testLastName',
         })
-        .expect(401)
+        .expect(201)
+        .expect('Content-Type', /json/)
+
+        expect(res.body.token).not.toBeUndefined()
+        expect(res.body.token).not.toBeNull()
     });
 
-    it('Success [POST]', () => {
-      return request(app)
+    it('[POST] /login success', async () => {
+      const res = await request(app)
         .post('/auth/login')
         .send({
-          id: 'testid',
+          email: 'test@email.com',
           password: 'testpassword'
         })
         .expect(201)
+        .expect('Content-Type', /json/)
+
+        expect(res.body.token).not.toBeUndefined()
+        expect(res.body.token).not.toBeNull()
+    });
+
+    it('[POST] /login failed', () => {
+      return request(app)
+        .post('/auth/login')
+        .send({
+          email : 'fail Test',
+          password : 'fail Test'
+        })
+        .expect(401)
     });
   });
 
   describe('/users', () => {
     let token: string = null;
+    let cookie: string[] = [];
 
-    beforeAll((done) => {
-      request(app)
+    beforeAll(async () => {
+      const res = await request(app)
         .post('/auth/login')
         .send({
-          id: 'testid',
+          email: 'test@email.com',
           password: 'testpassword'
         })
-        .end(function(err, res) {
-          token = res.body.token;
-          done();
-        });
+        .expect(201)
+        .expect('Content-Type', /json/)
+
+        expect(res.body.token).not.toBeUndefined();
+        expect(res.body.token).not.toBeNull();
+        token = res.body.token;
+        cookie = res.get('Set-Cookie');
     });
 
-    it('Failed [GET]', () => {
+    it('[GET] /users failed', () => {
       return request(app)
         .get('/users')
         .expect(401)
     });
 
-    it('Success [GET]', () => {
+    it('[GET] /users success', () => {
       return request(app)
         .get('/users')
         .set('Authorization', 'Bearer ' + token)
         .expect(200)
         .expect('respond with a resource');
+    });
+
+    it('[GET] /users failed to silent', async () => {
+      await request(app)
+        .get('/users')
+        .expect(401)
+
+      const silentRes = await request(app)
+      .post('/auth/silent')
+      .set('Cookie', cookie)
+      .send()
+      .expect(201)
+
+      expect(silentRes.body.token).not.toBeUndefined();
+      expect(silentRes.body.token).not.toBeNull();
     });
   });
 });

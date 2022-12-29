@@ -5,6 +5,7 @@
  */
 
 var app = require('../app').default;
+var mySqlDataSource = require('../loaders/mysql').default;
 var debug = require('debug')('express-passport-jwt:server');
 var http = require('http');
 
@@ -12,7 +13,7 @@ var http = require('http');
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(process.env.PORT || '3001');
 app.set('port', port);
 
 /**
@@ -81,10 +82,19 @@ function onError(error) {
  * Event listener for HTTP server "listening" event.
  */
 
-function onListening() {
+async function onListening() {
   var addr = server.address();
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+
+  try {
+    await mySqlDataSource.initialize()
+  } catch (error) {
+    console.error('Error during Data Source initialization:', err)
+    throw error;
+  }
+
+  debug('Data Source has been initialized!')
 }

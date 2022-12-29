@@ -1,19 +1,16 @@
-import { VerifiedCallback } from "passport-jwt";
-import { IVerifyOptions } from "passport-local";
-import { JwtPayload } from 'jsonwebtoken';
+import { IVerifyOptions } from 'passport-local';
 
-import User from "../entities/user";
-import * as UserRepository from '../repository/user'
+import dataSource from '../loaders/mysql'
+import { User } from '../entities/user.entity';
 
-
-export function verifyPassport(
+export async function verifyPassport(
   username: string,
   password: string,
   done: (error: any, user?: any, options?: IVerifyOptions) => void
-): void {
+): Promise<void> {
   try {
-    const loginResult = login(username, password);
-    if (loginResult === null) {
+    const loginResult = await login(username, password);
+    if (!loginResult) {
       done(null, null, { message: 'invalid username or password' });
       return;
     }
@@ -26,30 +23,27 @@ export function verifyPassport(
 };
 
 
-export function verifyJwtToken(payload: JwtPayload, done: VerifiedCallback): void {
-  try {
-    const user = UserRepository.findOneBy(payload.sub);
-    if (user === null) {
-      done(null, false, { message: 'Unauthorized token' });
-      return;
-    }
-
-    done(null, user);
-  } catch (error) {
-    console.error(error);
-    done(error, false);
+// dto로 전달하는게 깔끔할라나?
+export async function register(email: string, password: string, firstName: string, lastName: string): Promise<User | null> {
+  const userRepository = dataSource.getRepository(User);
+  const duplicateUser =  await userRepository.findOneBy({ email })
+  if (!!duplicateUser) {
+    // duplicate email
+    return null
   }
+
+  const user = User.create(email, password, firstName, lastName);
+  return await userRepository.save(user);
 }
 
-
-export function login(id: string, password: string): User | null {
-  const user = UserRepository.findOneBy(id);
+export async function login(email: string, password: string): Promise<User | null> {
+  const user =  await dataSource.getRepository(User).findOneBy({ email })
   if (!user) {
     return null
   }
 
   // 임시
-  if (password !== 'testpassword') {
+  if (user.password !== password) {
     return null;
   }
 
