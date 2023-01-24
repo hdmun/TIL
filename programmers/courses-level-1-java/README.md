@@ -5,3 +5,7 @@ https://school.programmers.co.kr/learn/challenges?order=recent&page=1&levels=1&l
 # 크기가 작은 부분 문자열
 
 https://school.programmers.co.kr/learn/courses/30/lessons/147355
+
+# 가장 가까운 같은 글자
+
+https://school.programmers.co.kr/learn/courses/30/lessons/142086
