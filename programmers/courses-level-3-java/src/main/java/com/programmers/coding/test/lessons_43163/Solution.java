@@ -1,4 +1,4 @@
-package com.programmers.coding.test._43163;
+package com.programmers.coding.test.lessons_43163;
 
 import java.util.Arrays;
 import java.util.LinkedList;
