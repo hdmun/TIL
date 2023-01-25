@@ -16,4 +16,12 @@ public class SolutionTest {
         assertEquals(4, solution.solution("hit", "cog", new String[] {"hot", "dot", "dog", "lot", "log", "cog"}));
         assertEquals(0, solution.solution("hit", "cog", new String[] {"hot", "dot", "dog", "lot", "log"}));
     }
+
+    @Test
+    public void testLessons43162() {
+        var solution = new com.programmers.coding.test.lessons_43162.Solution();
+
+        assertEquals(2, solution.solution(3, new int[][] { {1, 1, 0}, {1, 1, 0}, {0, 0, 1} }));
+        assertEquals(1, solution.solution(3, new int[][] { {1, 1, 0}, {1, 1, 1}, {0, 1, 1} }));
+    }
 }
