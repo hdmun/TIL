@@ -1,3 +1,4 @@
 rootProject.name = 'courses-level-3-java'
 include 'lessons-43105'
+include 'lessons-43163'
 
