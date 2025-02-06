@@ -29,7 +29,10 @@ namespace cpp11
     {
     public:
         CustomException(const char* message) noexcept
-            : _What(message) {}
+            : _What(message)
+			, _DoFree(false)
+		{
+		}
 
         char const* what() const {
             return _What;

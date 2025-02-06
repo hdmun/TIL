@@ -73,14 +73,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cpp11.cpp" />
-    <ClCompile Include="cpp11_thread.cpp" />
     <ClCompile Include="exception_catch.cpp" />
-    <ClCompile Include="move_instance.cpp" />
     <ClCompile Include="move_semantics.cpp" />
+    <ClCompile Include="pure_virtual_function.cpp" />
+    <ClCompile Include="virtual_destructor.cpp" />
     <ClCompile Include="virtual_function.cpp" />
-    <ClCompile Include="weak_ptr.cpp">
-      <Optimization Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Disabled</Optimization>
-    </ClCompile>
     <ClCompile Include="type_cast.cpp" />
   </ItemGroup>
   <ItemGroup>

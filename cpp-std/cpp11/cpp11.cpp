@@ -9,11 +9,10 @@ int main()
 {
     std::cout << "call cpp11 functions!\n";
 
-    cpp11::thread_main();
     cpp11::move_semantics();
-    cpp11::move_instance();
-    cpp11::weak_ptr_();
     cpp11::type_cast();
     cpp11::virtual_function();
-    cpp11::exception_catch();
+	cpp11::pure_virtual_function();
+	cpp11::virtual_destructor();
+	cpp11::exception_catch();
 }

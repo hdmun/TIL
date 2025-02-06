@@ -21,15 +21,6 @@
     <ClCompile Include="move_semantics.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="cpp11_thread.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="move_instance.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
-    <ClCompile Include="weak_ptr.cpp">
-      <Filter>소스 파일</Filter>
-    </ClCompile>
     <ClCompile Include="type_cast.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
@@ -37,6 +28,12 @@
       <Filter>소스 파일</Filter>
     </ClCompile>
     <ClCompile Include="exception_catch.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="pure_virtual_function.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="virtual_destructor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
